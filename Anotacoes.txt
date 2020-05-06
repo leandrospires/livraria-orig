@@ -1,0 +1,9 @@
+http://localhost:8080/jsf-livaria/livro.xhtml
+
+teste.login.br.2020@gmail.com
+
+git init
+git add .
+git commit -m "Inclusão do projeto Livraria JSF"
+git remote add origin https://github.com/leandrospires/livraria-orig.git
+git push -u origin master
