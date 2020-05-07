@@ -1,4 +1,4 @@
-http://localhost:8080/jsf-livaria/livro.xhtml
+http://localhost:8080/livraria/livro.xhtml
 
 teste.login.br.2020@gmail.com
 
