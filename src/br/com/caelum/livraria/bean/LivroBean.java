@@ -20,11 +20,19 @@ public class LivroBean {
 
 	private Livro livro = new Livro();
 	private Integer autorId;
+	private Integer livroId;
 
 	public Livro getLivro() {
 		return livro;
 	}
 
+	public void carregarLivroPelaId () {
+		if (getLivroId() == null)
+			return;
+		
+		this.livro = new DAO<Livro>(Livro.class).buscaPorId(getLivroId());
+	}
+	
 	public List<Autor> getAutores() {
 		// return new DAO<Autor>(Autor.class).listaTodos();
 		return new DAO<Autor>(Autor.class).listaTodos();
@@ -58,11 +66,36 @@ public class LivroBean {
 			return;
 		}
 
-		new DAO<Livro>(Livro.class).adiciona(this.livro);
+		
+		if(this.livro.getId() == null ) {
+			new DAO<Livro>(Livro.class).adiciona(this.livro);
+		} else {
+			new DAO<Livro>(Livro.class).atualiza(this.livro);
+		}
 		
 		this.livro = new Livro();
+		
+		
 	}
 
+	public void remove(Livro livro) {
+		System.out.println("Removendo livro " + this.livro.getTitulo());
+		new DAO<Livro>(Livro.class).remove(livro);
+	
+	}
+	
+	public void removerAutordoLivro(Autor autor) {
+		this.livro.removeAutor(autor);
+	}
+	
+	public void carregar(Livro livro) {
+		
+		System.out.println("Carregando livro " + this.livro.getTitulo());
+		this.livro = livro;
+		
+		
+	}
+	
 	public Integer getAutorId() {
 		return autorId;
 	}
@@ -95,6 +128,14 @@ public class LivroBean {
 		if (valor.after(dataAtual)) {
 			throw new ValidatorException(new FacesMessage("Data do Lançamento deve ser maior que a atual!"));
 		}
+	}
+
+	public Integer getLivroId() {
+		return livroId;
+	}
+
+	public void setLivroId(Integer livroId) {
+		this.livroId = livroId;
 	}
 	
 }
