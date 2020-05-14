@@ -28,10 +28,13 @@
 					<h:inputText id="email" value="#{autorBean.autor.email}">
 						<f:passThroughAttribute name="type" value="email" />
 					</h:inputText>
-
-
+				</h:panelGrid>
+				
+				<h:panelGrid columns="3">
+					<h:commandButton value="Início" action="#{autorBean.formIndex}" />
 					<h:commandButton value="Gravar" action="#{autorBean.gravar}" />
 					<h:commandButton value="Voltar" action="#{autorBean.voltar}" />
+					
 				</h:panelGrid>
 			</fieldset>
 		</h:form>
@@ -50,10 +53,14 @@
 					<f:facet name="header">Email</f:facet>
 					<h:outputText value="#{autor.email}" />
 				</h:column>
-				
 				<h:column>
+					<f:facet name="header">Qtd Livros</f:facet>
+					<h:outputText value="#{autorBean.qtdLivrosPorAutor(autor)}" id="qtdlivros"/>
+				</h:column>				
+				<h:column>
+					
 					<f:facet name="header">Remover</f:facet>
-					<h:commandLink value="remove" action="#{autorBean.remover(autor)}" />
+					<h:commandLink value="remove" action="#{autorBean.remover(autor)}" rendered="#{autorBean.qtdLivrosPorAutor(autor) == 0}"/>
 				</h:column>
 
 				<h:column>
@@ -62,7 +69,9 @@
 				</h:column>
 
 			</h:dataTable>
-			
+			<br />
+			<h:outputLabel value="Autores Cadastrados: " for="autores" />
+			<h:inputText id="autores" value="#{autorBean.qtdAutores}" disabled="true" size="3"/>
 			</h:form>
 		</fieldset>
 		

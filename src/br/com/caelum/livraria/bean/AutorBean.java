@@ -17,10 +17,17 @@ public class AutorBean {
 
 	private Integer autorId;
 	
+	private Integer qtdAutores;
+	
 	public Autor getAutor() {
 		return autor;
 	}
 
+	public String formIndex() {
+		System.out.println("Index!");
+		return "index?faces-redirect=true";
+	}
+	
 	public void carregarAutorPelaId () {
 		if (autorId == null)
 			return;
@@ -28,8 +35,31 @@ public class AutorBean {
 		this.autor = new DAO<Autor>(Autor.class).buscaPorId(autorId);
 	}
 	
+	public String formLivro() {
+		System.out.println("Chamado o form Livro!");
+		return "livro?faces-redirect=true";
+	}
 	public List<Autor> getAutores() {
-		return new DAO<Autor>(Autor.class).listaTodos();
+		
+		List<Autor> listaAutores = new DAO<Autor>(Autor.class).listaTodos();
+		
+		qtdAutores = listaAutores.size();
+		return listaAutores;//new DAO<Autor>(Autor.class).listaTodos();
+
+	}
+	
+	public Integer verQtdAutores() {
+		
+		List<Autor> listaAutores = new DAO<Autor>(Autor.class).listaTodos();
+		return listaAutores.size();
+	}
+	
+	public Integer qtdLivrosPorAutor(Autor autor) {
+		System.out.println("Autor: " + autor.getNome());
+		Integer qtd = new DAO(null).qtdLivrosPorAutor(autor);
+		
+		return qtd;
+
 	}
 	
 	public void gravar() {
@@ -73,5 +103,13 @@ public class AutorBean {
 
 	public void setAutorId(Integer autorId) {
 		this.autorId = autorId;
+	}
+
+	public Integer getQtdAutores() {
+		return qtdAutores;
+	}
+
+	public void setQtdAutores(Integer qtdAutores) {
+		this.qtdAutores = qtdAutores;
 	}
 }

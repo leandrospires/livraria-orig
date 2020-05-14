@@ -21,6 +21,8 @@ public class LivroBean {
 	private Livro livro = new Livro();
 	private Integer autorId;
 	private Integer livroId;
+	private Integer qtdLivros;
+	private Integer qtdLivrosporAutor;
 
 	public Livro getLivro() {
 		return livro;
@@ -39,11 +41,30 @@ public class LivroBean {
 	}
 
 	public List<Autor> getAutoresDoLivro() {
+		qtdLivrosporAutor = this.livro.getAutores().size();
 		return this.livro.getAutores();
 	}
 
 	public List<Livro> getLivros() {
-		return new DAO<Livro>(Livro.class).listaTodos();
+		
+		List<Livro> listaLivros = new DAO<Livro>(Livro.class).listaTodos();
+		
+		qtdLivros = listaLivros.size();
+		
+		return listaLivros;
+	}
+	
+	public Integer verQtdLivros () {
+		
+		List<Livro> listaLivros = new DAO<Livro>(Livro.class).listaTodos();
+		
+		return listaLivros.size();
+		
+	}
+
+	public String formIndex() {
+		System.out.println("Index!");
+		return "index?faces-redirect=true";
 	}
 	
 	public String formAutor() {
@@ -136,6 +157,22 @@ public class LivroBean {
 
 	public void setLivroId(Integer livroId) {
 		this.livroId = livroId;
+	}
+
+	public Integer getQtdLivros() {
+		return qtdLivros;
+	}
+
+	public void setQtdLivros(Integer qtdLivros) {
+		this.qtdLivros = qtdLivros;
+	}
+
+	public Integer getQtdLivrosporAutor() {
+		return qtdLivrosporAutor;
+	}
+
+	public void setQtdLivrosporAutor(Integer qtdLivrosporAutor) {
+		this.qtdLivrosporAutor = qtdLivrosporAutor;
 	}
 	
 }

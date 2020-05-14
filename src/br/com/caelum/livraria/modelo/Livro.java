@@ -22,8 +22,8 @@ public class Livro {
 	private String titulo;
 	private String isbn;
 	private double preco;
+
 	@Temporal(TemporalType.TIMESTAMP)
-	
 	private Calendar dataLancamento = Calendar.getInstance();
 
 	@ManyToMany(fetch=FetchType.EAGER)

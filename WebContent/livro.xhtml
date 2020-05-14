@@ -16,6 +16,9 @@
 	<ui:define name="titulo">
 		Novo Titulo	
 	</ui:define>
+	
+
+	
 	<ui:define name="conteudo">
 		<h:form>
 
@@ -47,7 +50,7 @@
 					<h:inputText id="dataLancamento"
 						value="#{livroBean.livro.dataLancamento.time}">
 						<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-							timeZone="America/SaoPaulo" />
+							timezone="America/SaoPaulo" />
 					</h:inputText>
 				</h:panelGrid>
 			</fieldset>
@@ -58,12 +61,10 @@
 					<h:outputLabel value="Selecione o Autor:" for="autor" />
 
 					<h:selectOneMenu value="#{livroBean.autorId}" id="autor">
-						<f:selectItems value="#{livroBean.autores}" var="autor"
-							itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
+						<f:selectItems value="#{livroBean.autores}" var="autor"	itemLabel="#{autor.nome}" itemValue="#{autor.id}" />
 					</h:selectOneMenu>
 
-					<h:commandButton value="Gravar Autor"
-						action="#{livroBean.gravarAutor}">
+					<h:commandButton value="Gravar Autor" action="#{livroBean.gravarAutor}">
 						<f:ajax execute="autor" render="tabelaAutores" />
 					</h:commandButton>
 
@@ -71,8 +72,7 @@
 					<h:commandLink value="Cadastrar novo autor"
 						action="#{livroBean.formAutor}" immediate="true" />
 
-					<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor"
-						id="tabelaAutores">
+					<h:dataTable value="#{livroBean.autoresDoLivro}" var="autor" id="tabelaAutores">
 						<h:column>
 							<h:outputText value="#{autor.nome}" />
 						</h:column>
@@ -82,12 +82,16 @@
 					</h:dataTable>
 				</h:panelGrid>
 			</fieldset>
-
-			<h:commandButton value="Gravar" action="#{livroBean.gravar}">
+				<h:commandButton value="Gravar" action="#{livroBean.gravar}">
 				<f:ajax execute="@form" render="@form :formTabelaLivros:tabelaLivros" />
 			</h:commandButton>
+			
 		</h:form>
 
+		<h:form>
+			<br />
+			<h:commandButton value="Início" action="#{livroBean.formIndex}" />
+		</h:form>
 		
 		<fieldset style="border-color: blue; border-style: dotted;">
 			<legend>Lista de Livros</legend>
@@ -117,7 +121,7 @@
 					<f:facet name="header">Data</f:facet>
 					<h:outputText value="#{livro.dataLancamento.time}">
 						<f:convertDateTime pattern="dd/MM/yyyy HH:mm"
-							timeZone="America/SaoPaulo" />
+							timezone="America/SaoPaulo" />
 					</h:outputText>
 				</h:column>
 
@@ -132,7 +136,8 @@
 				</h:column>
 
 			</h:dataTable>
-			
+			<h:outputLabel value="Livros Cadastrados: " for="livros" />
+			<h:inputText id="livros" value="#{livroBean.qtdLivros}" disabled="true" size="3"/>
 			</h:form>
 		</fieldset>
 	</ui:define>

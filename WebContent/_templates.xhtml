@@ -9,9 +9,17 @@
 <h:body>
 	<div id="cabecalho">
 		<h:graphicImage library="img" name="logo-alura.png" />
+		
+		<h:form rendered="#{usuarioLogado != null}">
+			<h:commandLink value="Logout" action="#{loginBean.deslogar()}" />
+		</h:form>
+		
 		<h1>
 			<ui:insert name="titulo"></ui:insert>
 		</h1>
+		<h2>
+			<ui:insert name="corpo"></ui:insert>
+		</h2>
 	</div>
 
 	<div id="conteudo">
@@ -20,7 +28,16 @@
 	
 	<div id="rodape">
 		<ui:insert name="texto"></ui:insert>
+		<br />
+		<h:outputLabel value="Bem vindo "></h:outputLabel>
+		<h:outputLabel value="#{loginBean.usuarioLogado()}"></h:outputLabel>
+		<!-- <h:outputLabel value="#{sessionScope['usuarioLogado'].email}"></h:outputLabel>  -->
+		<br />
 		<h:outputLabel value="copyright 2020"></h:outputLabel>
+		<br />
+		<h:outputLabel value="#{session.lastAccessedTime}">
+			<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timezone="GMT-3" />
+		</h:outputLabel>
 	</div>
 </h:body>
 </html>

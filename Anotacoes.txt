@@ -2,6 +2,8 @@ http://localhost:8080/livraria/livro.xhtml
 
 teste.login.br.2020@gmail.com
 
+cd /E/LeandroPires/Alura/JavaEE/livraria-orig
+
 git init
 git add .
 git commit -m "Inclusão do projeto Livraria JSF"

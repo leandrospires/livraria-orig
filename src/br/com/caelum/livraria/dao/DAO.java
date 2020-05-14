@@ -3,7 +3,12 @@ package br.com.caelum.livraria.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+
+import br.com.caelum.livraria.modelo.Autor;
+import br.com.caelum.livraria.modelo.Livro;
 
 public class DAO<T> {
 
@@ -61,13 +66,14 @@ public class DAO<T> {
 		em.close();
 		return lista;
 	}
-
+	
 	public T buscaPorId(Integer id) {
 		EntityManager em = new JPAUtil().getEntityManager();
 		T instancia = em.find(classe, id);
 		em.close();
 		return instancia;
 	}
+
 
 	public int contaTodos() {
 		EntityManager em = new JPAUtil().getEntityManager();
@@ -76,6 +82,29 @@ public class DAO<T> {
 		em.close();
 
 		return (int) result;
+	}
+
+	public Integer qtdLivrosPorAutor(Autor autor) {
+		
+		EntityManager em = new JPAUtil().getEntityManager();
+		TypedQuery<Livro> query = em.createQuery(
+				"select l from Livro l join fetch l.autores a where a.id = :pAutor", Livro.class);
+
+		query.setParameter("pAutor", autor.getId());
+		
+		Integer resultado;
+		
+		try {
+			resultado = query.getResultList().size();
+		} catch(NoResultException ex) {
+			return 0;
+		}
+		
+		em.close();
+		
+		//return autor.getId();
+		return resultado;
+		
 	}
 
 	public List<T> listaTodosPaginada(int firstResult, int maxResults) {
