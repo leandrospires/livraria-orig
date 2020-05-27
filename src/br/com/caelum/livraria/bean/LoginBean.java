@@ -19,19 +19,21 @@ public class LoginBean {
 		FacesContext context  = FacesContext.getCurrentInstance();
 		boolean existe = new UsuarioDao().existe(this.usuario);
 		
+		context.getExternalContext().getFlash().setKeepMessages(true);
+		
 		if (existe) {
 			context.getExternalContext().getSessionMap().put("usuarioLogado", this.usuario);
 			return "livro?faces-redirect=true";
 		} else {
 			
-			context.getExternalContext().getFlash().setKeepMessages(true);
+			
 			context.addMessage(null, new FacesMessage("Usuário ou senha inválidos!"));
 			//"login:email"
 			return "login?faces-redirect=true";
 		}
 
 	}
-
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}

@@ -51,7 +51,14 @@
 
 			</p:fieldset>
 		</h:form>
-
+		<h:form>
+			<h2>
+			Menu
+			</h2>
+			<h:commandLink value="Cadastro de Autores" action="#{livroBean.formAutor}" immediate="true" />
+			<br />
+			<h:commandLink value="Cadastro de Livros" action="#{autorBean.formLivro}" immediate="true" />
+		</h:form>
 	</ui:define>
 
 

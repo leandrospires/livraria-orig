@@ -63,7 +63,8 @@ public class AutorBean {
 	}
 	
 	public void gravar() {
-		System.out.println("Gravando autor " + this.autor.getNome());
+		System.out.println("Gravando autor: " + this.autor.getNome());
+		System.out.println("Gravando ID: " + this.autor.getId());
 
 		//new DAO<Autor>(Autor.class).adiciona(this.autor);
 		

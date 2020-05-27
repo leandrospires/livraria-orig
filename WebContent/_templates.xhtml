@@ -3,15 +3,34 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:h="http://xmlns.jcp.org/jsf/html"
 	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
 	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head />
+
+
 <h:body>
 	<div id="cabecalho">
 		<h:graphicImage library="img" name="logo-alura.png" />
+		<br />
+		<h:form>
+    		<p:clock pattern="HH:mm" />
+		</h:form>
+		<br />
 		
-		<h:form rendered="#{usuarioLogado != null}">
-			<h:commandLink value="Logout" action="#{loginBean.deslogar()}" />
+		<p:growl id="messages" showDetail="true" autoUpdate="true"/>
+		
+		<h:form rendered="#{usuarioLogado != null}" >
+	 
+		    <p:menuButton value="Menu">
+		        <p:menuitem value="Livros" action="livro" icon="ui-icon-note"/>
+		        <p:menuitem value="Autores" action="autor" icon="ui-icon-person"/>
+		        <p:menuitem value="Carousel" action="carousel" icon="ui-icon-refresh"/>
+		        <p:menuitem value="Ring" action="ring" icon="ui-icon-circle-zoomout"/>
+		        <p:separator />
+		        <p:menuitem value="Logout" action="#{loginBean.deslogar()}" icon="fa fa-fw fa-sign-out"/>
+		    </p:menuButton>
+		
 		</h:form>
 		
 		<h1>
@@ -31,7 +50,6 @@
 		<br />
 		<h:outputLabel value="Bem vindo "></h:outputLabel>
 		<h:outputLabel value="#{loginBean.usuarioLogado()}"></h:outputLabel>
-		<!-- <h:outputLabel value="#{sessionScope['usuarioLogado'].email}"></h:outputLabel>  -->
 		<br />
 		<h:outputLabel value="copyright 2020"></h:outputLabel>
 		<br />

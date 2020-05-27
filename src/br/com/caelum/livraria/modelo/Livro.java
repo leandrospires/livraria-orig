@@ -22,6 +22,8 @@ public class Livro {
 	private String titulo;
 	private String isbn;
 	private double preco;
+	private String genero;
+	
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar dataLancamento = Calendar.getInstance();
@@ -83,6 +85,14 @@ public class Livro {
 	public void removeAutor(Autor autor) {
 		this.autores.remove(autor);
 		
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 
