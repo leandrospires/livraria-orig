@@ -9,6 +9,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 
 import br.com.caelum.livraria.dao.DAO;
 import br.com.caelum.livraria.modelo.Livro;
@@ -17,6 +18,26 @@ import br.com.caelum.livraria.modelo.Venda;
 @ManagedBean
 @ViewScoped
 public class VendasBean {
+	
+    public PieChartModel getEstoqueLivros() {
+    	
+    	List<Livro> livros = new DAO<Livro>(Livro.class).listaTodos();
+    	PieChartModel estoqueLivros = new PieChartModel();
+    	Integer total = 0;
+    	
+    	for (Livro livro : livros) {
+    		estoqueLivros.set(livro.getTitulo() + " (" + livro.getEstoque().toString() + ")", livro.getEstoque());
+    		total = total + livro.getEstoque();
+    	}
+    	
+
+    	estoqueLivros.setTitle("Estoque Total: " + total.toString());
+    	estoqueLivros.setLegendPosition("w");
+    	estoqueLivros.setShadow(false);    	
+    	
+        return estoqueLivros;
+    }
+
 
 	public BarChartModel getVendasModel() {
 

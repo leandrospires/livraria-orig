@@ -44,7 +44,6 @@
 					</p:inputText>
 
 					<p:outputLabel value="Data de Lançamento:" for="dataLancamento" />
-					
 					<p:calendar id="dataLancamento" value="#{livroBean.livro.dataLancamento.time}" timezone="America/SaoPaulo" pattern="dd/MM/yyyy" mask ="true"/>
 					
 					<p:outputLabel value="Gênero:" for="genero" />                            
@@ -52,7 +51,10 @@
     					<f:selectItem itemLabel="Selecione..." itemValue="#{null}" />
     					<f:selectItems value="#{livroBean.generos}" /> 
 					</p:selectOneMenu>
-					
+
+					<p:outputLabel value="Estoque:" for="estoque" />
+					<p:spinner id="estoque" value="#{livroBean.livro.estoque}" />
+
 				</p:panelGrid>
 			</p:fieldset>
 
@@ -120,6 +122,10 @@
         					</p:selectOneMenu>
     					</f:facet>
     					<h:outputText value="#{livro.genero}" />
+					</p:column>
+					
+					<p:column headerText="Estoque">
+						<h:outputText value="#{livro.estoque}" />
 					</p:column>
 	
 					<p:column headerText="Alterar" >
