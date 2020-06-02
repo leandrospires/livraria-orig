@@ -1,27 +1,34 @@
 package br.com.caelum.livraria.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.PieChartModel;
 
-import br.com.caelum.livraria.dao.DAO;
+import br.com.caelum.livraria.dao.LivroDao;
 import br.com.caelum.livraria.modelo.Livro;
 import br.com.caelum.livraria.modelo.Venda;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class VendasBean {
+public class VendasBean implements Serializable {
 	
-    public PieChartModel getEstoqueLivros() {
+	private static final long serialVersionUID = 1L;
+	
+	@Inject
+	private LivroDao livroDao;
+
+	public PieChartModel getEstoqueLivros() {
     	
-    	List<Livro> livros = new DAO<Livro>(Livro.class).listaTodos();
+    	List<Livro> livros = livroDao.listaTodos();
     	PieChartModel estoqueLivros = new PieChartModel();
     	Integer total = 0;
     	
@@ -68,7 +75,7 @@ public class VendasBean {
 
 	public List<Venda> getVendas(long seed) {
 
-		List<Livro> livros = new DAO<Livro>(Livro.class).listaTodos();
+		List<Livro> livros = livroDao.listaTodos();
 
 		List<Venda> vendas = new ArrayList<Venda>();
 

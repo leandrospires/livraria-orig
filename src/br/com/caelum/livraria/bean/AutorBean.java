@@ -1,23 +1,29 @@
 package br.com.caelum.livraria.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import br.com.caelum.livraria.dao.DAO;
+import br.com.caelum.livraria.dao.AutorDao;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.util.RedirectView;
 
-@ManagedBean
-@ViewScoped
-public class AutorBean {
+@Named
+@ViewScoped //javax.faces.view.ViewScoped
+public class AutorBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Autor autor = new Autor();
-
 	private Integer autorId;
-	
 	private Integer qtdAutores;
+
+	//Injeção de dependências
+	@Inject
+	private AutorDao autorDao; //CDI faz new AutorDao() e injeta
 	
 	public Autor getAutor() {
 		return autor;
@@ -32,7 +38,7 @@ public class AutorBean {
 		if (autorId == null)
 			return;
 		
-		this.autor = new DAO<Autor>(Autor.class).buscaPorId(autorId);
+		this.autor = this.autorDao.buscaPorId(autorId);
 	}
 	
 	public String formLivro() {
@@ -41,7 +47,7 @@ public class AutorBean {
 	}
 	public List<Autor> getAutores() {
 		
-		List<Autor> listaAutores = new DAO<Autor>(Autor.class).listaTodos();
+		List<Autor> listaAutores = this.autorDao.listaTodos();
 		
 		qtdAutores = listaAutores.size();
 		return listaAutores;//new DAO<Autor>(Autor.class).listaTodos();
@@ -50,13 +56,13 @@ public class AutorBean {
 	
 	public Integer verQtdAutores() {
 		
-		List<Autor> listaAutores = new DAO<Autor>(Autor.class).listaTodos();
+		List<Autor> listaAutores = this.autorDao.listaTodos();
 		return listaAutores.size();
 	}
 	
 	public Integer qtdLivrosPorAutor(Autor autor) {
 		System.out.println("Autor: " + autor.getNome());
-		Integer qtd = new DAO(null).qtdLivrosPorAutor(autor);
+		Integer qtd = this.autorDao.qtdLivrosPorAutor(autor);
 		
 		return qtd;
 
@@ -69,9 +75,9 @@ public class AutorBean {
 		//new DAO<Autor>(Autor.class).adiciona(this.autor);
 		
 		if(this.autor.getId() == null ) {
-			new DAO<Autor>(Autor.class).adiciona(this.autor);
+			this.autorDao.adiciona(this.autor);
 		} else {
-			new DAO<Autor>(Autor.class).atualiza(this.autor);
+			this.autorDao.atualiza(this.autor);
 		}
 		
 		this.autor = new Autor();
@@ -89,7 +95,7 @@ public class AutorBean {
 	public void remover(Autor autor) {
 		
 		System.out.println("Removendo Autor " + autor.getNome());
-		new DAO<Autor>(Autor.class).remove(autor);
+		this.autorDao.remove(autor);
 	
 	}
 	

@@ -1,24 +1,29 @@
 package br.com.caelum.livraria.bean;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-import br.com.caelum.livraria.dao.DAO;
+import br.com.caelum.livraria.dao.AutorDao;
+import br.com.caelum.livraria.dao.LivroDao;
 import br.com.caelum.livraria.modelo.Autor;
 import br.com.caelum.livraria.modelo.Livro;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class LivroBean {
+public class LivroBean implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Livro livro = new Livro();
 	private Integer autorId;
 	private Integer livroId;
@@ -26,6 +31,13 @@ public class LivroBean {
 	private Integer qtdLivrosporAutor;
 	
 	private List<Livro> livros;
+	
+	//Injeção de dependências
+	@Inject
+	private LivroDao livroDao; //CDI faz new AutorDao() e injeta
+	
+	@Inject
+	private AutorDao autorDao;
 
 	private List<String> generos = Arrays.asList("Romance", "Drama", "Ação");
 
@@ -41,12 +53,12 @@ public class LivroBean {
 		if (getLivroId() == null)
 			return;
 		
-		this.livro = new DAO<Livro>(Livro.class).buscaPorId(getLivroId());
+		this.livro = livroDao.buscaPorId(getLivroId());
 	}
 	
 	public List<Autor> getAutores() {
-		// return new DAO<Autor>(Autor.class).listaTodos();
-		return new DAO<Autor>(Autor.class).listaTodos();
+
+		return autorDao.listaTodos();
 	}
 
 	public List<Autor> getAutoresDoLivro() {
@@ -55,10 +67,9 @@ public class LivroBean {
 	}
 
 	public List<Livro> getLivros() {
-		DAO<Livro> dao = new DAO<Livro>(Livro.class);
 		
 		if (this.livros == null) {
-			this.livros = dao.listaTodos();
+			this.livros = livroDao.listaTodos();
 		}
 		
 		qtdLivros = livros.size();
@@ -66,21 +77,9 @@ public class LivroBean {
 		return livros;
 	}
 	
-	
-	/* 
-	public List<Livro> getLivros() {
-		
-		List<Livro> listaLivros = new DAO<Livro>(Livro.class).listaTodos();
-		
-		qtdLivros = listaLivros.size();
-		
-		return listaLivros;
-	}
-	*/
-	
 	public Integer verQtdLivros () {
 		
-		List<Livro> listaLivros = new DAO<Livro>(Livro.class).listaTodos();
+		List<Livro> listaLivros = livroDao.listaTodos();
 		
 		return listaLivros.size();
 		
@@ -97,7 +96,7 @@ public class LivroBean {
 	}
 
 	public void gravarAutor() {
-		Autor autor = new DAO<Autor>(Autor.class).buscaPorId(this.autorId);
+		Autor autor = autorDao.buscaPorId(this.autorId);
 		this.livro.adicionaAutor(autor);
 		System.out.println("Erro: Autor: " + autor.getNome());
 	}
@@ -111,12 +110,11 @@ public class LivroBean {
 			return;
 		}
 
-		DAO<Livro> dao = new DAO<Livro>(Livro.class);
 		if(this.livro.getId() == null ) {
-			dao.adiciona(this.livro);
-			this.livros = dao.listaTodos();
+			livroDao.adiciona(this.livro);
+			this.livros = livroDao.listaTodos();
 		} else {
-			dao.atualiza(this.livro);
+			livroDao.atualiza(this.livro);
 		}
 		
 		qtdLivros = livros.size();
@@ -128,11 +126,10 @@ public class LivroBean {
 	public void remove(Livro livro) {
 		System.out.println("Removendo livro: " + this.livro.getTitulo());
 
-		DAO<Livro> dao = new DAO<Livro>(Livro.class);
-		dao.remove(livro);
+		livroDao.remove(livro);
 
 		qtdLivros = livros.size();
-		this.livros = dao.listaTodos();
+		this.livros = livroDao.listaTodos();
 	
 	}
 	
